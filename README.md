@@ -8,18 +8,28 @@
 `npm install --save bn.js`
 
 ## API
-
+### Instantiation
 ```js
 const BN = require('bn.js');
-
-// Numbers
+```
+### new BN(number)
+Takes a number and turns it into it's hex representation.
+Hex numbers are inputed with the `0x` prefix (eg. `0x1234`)
+```js
+// String
 new BN(12345);     // <BN: 3039>
 new BN(0x4123456); // <BN: 4123456>
-
-// Strings
+```
+### new BN(string, base)
+Takes a hexadecimal `string` and converts it into the corresponding `base`
+```js
 new BN('FF', 16); // <BN: 255>
 new BN('1A6B765D8CDF', 16); // <BN: 29048849665247>
-
+```
+### new BN(array, [endiannessParameter])
+Creates a big number representation in Big Endian of an array.
+If `endianessParameter` exists and is `le`, uses Little Endian
+```js
 // Big endian
 new BN([1,2,3,4]); // <BN: 1020304>
 new BN([1,2,3,4]).toArray().join(','); // <BN: 1,2,3,4>
@@ -27,33 +37,68 @@ new BN([1,2,3,4]).toArray().join(','); // <BN: 1,2,3,4>
 // Little endian
 new BN([1,2,3], 10, 'le'); // <BN: 30201>
 new BN([1,2,3,4], 10, 'le'); // <BN: 4030201>
-
+```
+### BN.bitLength()
+Returns the big number bit length
+```js
 // bitLength
 new BN(0x123456).bitLength(); // <BN: 21>
 new BN('123456789', 16).bitLength(); // <BN: 33>
-
+```
+### BN.zeroBits()
+Returns the number of big number zero bits
+```js
 // zeroBits
 new BN('11000', 2).zeroBits(); // 3
-
-// iaddn
+```
+### BN.sign()
+Returns `true` if the corresponding big number is signed, else `false`
+```js
+// sign
 new BN(-100).sign;  // true
 new BN(100).sign;   // false
-
+```
+### BN.iaddn(number)
+Does raw big number addition with `number`
+```js
+// iaddn
+new BN(100).iaddn(200) // <BN: 300>
+```
+### BN.isubn(number)
+Does raw big number substraction with `number`
+```js
 // isubn
 new BN(-100).isubn(200) // <BN: -300>
-
+```
+### BN.add(bigNumber)
+Does big number addition with the corresponding `bigNumber` and
+returns the corresponding hex big number
+```js
 // add
 new BN(14).add(new BN(26)); // <BN: 28>
-
+```
+### BN.mul(bigNumber)
+Does big number multiplication with the corresponding `bigNumber` and
+returns the corresponding hex big number
+```js
 // mul
 new BN(0x1001).mul(new BN(0x1234)); // <BN: 1235234>
-
+```
+### BN.div(bigNumber)
+Does big number division with the corresponding `bigNumber` and
+returns the corresponding hex big number
+```js
 // div
 new BN('-69527932928').div(new BN('16974594')); // <BN: -fff>
-
+```
+### BN.mod(bigNumber)
+Does big number divison with the corresponding `bigNumber` and
+returns the corresponding hex big number remainder
+```js
 // mod
 new BN('10').mod(new BN(256)); // <BN: a>
-
+```
+```js
 // divRound
 new BN(9).divRound(new BN(20)).toString(10); // <BN: 0>
 
